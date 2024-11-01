@@ -50,10 +50,10 @@
       (cons (- (second xs) (first xs)) (eval-list (rest xs)))
       ))
 
-(define (helper-back xs n sign)
+(define (helper-back xs)
   (if (all-zero? xs)
-      (* n sign)
-      (helper-back (eval-list xs) (- (car xs) n) (* sign -1))
+      0
+      (- (first xs) (helper-back (eval-list xs)))
       ))
 
 (define (helper-front xs)
@@ -64,7 +64,7 @@
 
 (define (sum-predictions strategy xs)
   (if (equal? strategy "backwards")
-      (apply + (map (λ (x) (helper-back x 0 -1)) xs))
+      (apply + (map (λ (x) (helper-back x)) xs))
       (apply + (map (λ (x) (helper-front x)) xs))
       ))
 
